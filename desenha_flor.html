@@ -1,0 +1,90 @@
+<canvas width="600" height="400"></canvas>
+<p id="msg"></p>
+
+<script>
+
+    var tela = document.querySelector('canvas');
+    var pincel = tela.getContext('2d');
+    pincel.fillStyle = 'white';
+    pincel.fillRect(0, 0, 600, 400);
+
+    function desenhaCirculo(x, y, raio, cor) {
+
+        pincel.fillStyle = cor;
+        pincel.beginPath();
+        pincel.arc(x, y, raio, 0, 2*3.14);
+        pincel.fill();
+
+    }
+
+
+    function desenhaFlor(x,y,raio){
+
+
+        var cores = ['red','green', 'blue', 'yellow', 'orange'];
+        var coresFlor=shuffle(cores);
+        
+        desenhaCirculo(x,y,raio,coresFlor[0]);
+        
+        desenhaCirculo(x-2*raio, y, raio, coresFlor[1]);   
+        desenhaCirculo(x, y-2*raio, raio, coresFlor[2]);   
+        desenhaCirculo(x+2*raio, y, raio, coresFlor[3]);   
+        desenhaCirculo(x, y+2*raio, raio, coresFlor[4]);   
+
+
+    }
+
+
+
+    var myInterval = setInterval(redesenhaFlor, 300);
+
+    var numeroFloresDesenhadas = 1;
+
+    function redesenhaFlor(){
+
+
+        if(numeroFloresDesenhadas == 0) {
+
+            pincel.fillStyle = 'white';
+            pincel.fillRect(0, 0, 600, 400);
+
+
+        }
+
+        var novaCoordenadaX = Math.round(Math.random(500) * 500);
+        var novaCoordenaY = Math.round(Math.random(400) * 400);
+
+        desenhaFlor(novaCoordenadaX, novaCoordenaY, 10);
+
+        numeroFloresDesenhadas++;
+        
+        if(numeroFloresDesenhadas > 100) numeroFloresDesenhadas = 0;
+
+
+    }
+
+
+
+    function shuffle(array) {
+
+      var currentIndex = array.length, temporaryValue, randomIndex;
+
+      // While there remain elements to shuffle...
+      while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);//retorna numero entre 0 e array.length-1
+        currentIndex -= 1;''
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+
+      return array;
+}
+
+    
+
+</script>

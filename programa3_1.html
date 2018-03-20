@@ -1,0 +1,71 @@
+<canvas width="1000" height="500"></canvas>
+
+<script>
+	
+	var cores = ['blue', 'red' , 'green'];
+	var corAtualIndex = 0;
+	var raioDaBolinha = 10;
+	var incremento = 10;
+	var decremento = 5;
+	var tamanhoMaximoBolinha = 80;
+	var tamanhoMinimoBolinha = 5;
+
+	var canvas = document.querySelector('canvas');
+	var pincel = canvas.getContext('2d');
+
+
+	pincel.fillStyle = 'lightgrey';
+	pincel.fillRect(0,0,canvas.width,canvas.height);
+
+
+	
+	function desenhaBolinha(evento){
+
+		var x = evento.pageX - canvas.offsetLeft;
+		var y = evento.pageY - canvas .offsetTop;
+
+		pincel.fillStyle = cores[corAtualIndex];
+		pincel.beginPath();
+		
+		
+		if(evento.shiftKey){
+			
+			raioDaBolinha+=incremento;
+			//limita em 40 o tamanho maximo da bolinha
+			if(raioDaBolinha>=tamanhoMaximoBolinha)raioDaBolinha=tamanhoMaximoBolinha;
+			console.log('bolinha aumentada para '+raioDaBolinha);
+
+		}else if(evento.ctrlKey){
+
+			raioDaBolinha-=decremento;
+			//limita em 10 o tamanho minimo da bolinha
+			if(raioDaBolinha<=tamanhoMinimoBolinha) raioDaBolinha=tamanhoMinimoBolinha;
+
+			console.log('bolinha diminuida para '+raioDaBolinha);
+
+		}
+
+		pincel.arc(x,y,raioDaBolinha,0,2*Math.PI);
+		pincel.fill();
+
+
+		
+	}
+
+	
+	canvas.onclick = desenhaBolinha;
+
+	function mudaCor() {
+
+
+		++corAtualIndex;
+		corAtualIndex = corAtualIndex%3;
+
+        console.log('mudou para cor  ' + cores[corAtualIndex]);
+        return false;
+    }
+
+    canvas.oncontextmenu = mudaCor;
+
+
+</script>

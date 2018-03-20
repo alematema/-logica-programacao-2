@@ -1,0 +1,29 @@
+
+<input>
+
+<script>
+	
+
+
+	var input = document.querySelector('input');
+
+	sleep(1000);
+
+
+	function sleep(miliseconds){
+
+		var start = new Date().getTime();
+		var i = 0;
+	  	while((new Date().getTime() - start) <= miliseconds){
+
+	  		console.log('sleeping ');
+	  		input.value = 'sleeping ' + i;
+
+	  		i++;
+
+	  	}
+
+	}
+
+
+</script>

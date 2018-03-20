@@ -1,0 +1,126 @@
+
+
+
+<canvas width="600" height="400"></canvas>
+<div>
+
+    <button style="padding: 5px;margin-top: 5px; background: blue; width: 50px; height: 30px;" id="cor_pincel" title="click para mudar cor do pincel" onclick="mudaCor()">COR</button>
+      
+    <button style="padding: 5px; font-weight: bold;" onclick="limpaTela()" title="click para limpar a tela">LIMPA</button>
+
+    <button style="padding: 5px;font-weight: bold;margin-top: 10px" onclick="abreAjuda()" title="click para ver ajuda de teclas e botoes do mouse">AJUDA</button>
+    
+
+
+</div>
+
+
+<script>
+
+
+    function limpaTela(){
+
+       
+        pincel.fillStyle = corCanvas;
+        pincel.fillRect(0, 0, 600, 400);
+        
+
+    }
+
+
+    var cores = ['blue', 'red' , 'green'];
+    var corAtualIndex = 0;
+    var raioDaBolinha = 10;
+    var incremento = 10;
+    var decremento = 5;
+    var tamanhoMaximoBolinha = 80;
+    var tamanhoMinimoBolinha = 5;
+    var corCanvas = 'lightgrey';
+
+    var tela = document.querySelector('canvas');
+    var pincel = tela.getContext('2d');
+
+    pincel.fillStyle = corCanvas;
+    pincel.fillRect(0, 0, 600, 400);
+
+    function desenhaCirculo(evento) {
+
+        var x = evento.pageX - tela.offsetLeft;
+        var y = evento.pageY - tela.offsetTop;
+        pincel.fillStyle = cores[corAtualIndex];
+        pincel.beginPath();
+        
+        
+        
+
+        pincel.arc(x,y,raioDaBolinha,0,2*Math.PI);
+        pincel.fill();
+
+    }
+
+
+    function doTheWork(evento){
+        
+        if(mouseDown)
+            desenhaCirculo(evento);
+        
+    }
+
+
+    var mouseDown=false;
+ 
+    function setMouseUpOrDown(evento){
+
+        if(evento.button == 0){
+
+
+            if(evento.shiftKey){
+                
+                raioDaBolinha+=incremento;
+                //limita em 40 o tamanho maximo da bolinha
+                if(raioDaBolinha>=tamanhoMaximoBolinha)raioDaBolinha=tamanhoMaximoBolinha;
+                console.log('bolinha aumentada para '+raioDaBolinha);
+
+            }else if(evento.ctrlKey){
+
+                raioDaBolinha-=decremento;
+                //limita em 10 o tamanho minimo da bolinha
+                if(raioDaBolinha<=tamanhoMinimoBolinha) raioDaBolinha=tamanhoMinimoBolinha;
+
+                console.log('bolinha diminuida para '+raioDaBolinha);
+
+            }
+
+            if(mouseDown)mouseDown=false;
+            else mouseDown = true;
+            
+        }
+       
+    }
+
+    function mudaCor() {
+
+
+        ++corAtualIndex;
+        corAtualIndex = corAtualIndex%3;
+
+        var corPincel = document.getElementById('cor_pincel');
+         
+        corPincel.style.background=cores[corAtualIndex];
+       
+
+        console.log('mudou para cor  ' + cores[corAtualIndex]);
+        return false;
+
+    }
+
+    function abreAjuda(){
+        alert("Click ESQUERDO -> DESENHA\nShift + Click ESQUERDO -> AUMENTA PINCEL\nCtrl+Click ESQUERDO -> DIMINUI PINCEL\nClick DIREITO -> MUDA A COR");
+    }
+
+    tela.onmousemove=doTheWork;
+    tela.onmousedown=setMouseUpOrDown;
+    tela.onmouseup=setMouseUpOrDown; 
+    tela.oncontextmenu = mudaCor; 
+
+</script>

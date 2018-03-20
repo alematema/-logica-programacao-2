@@ -1,0 +1,176 @@
+<canvas width="1200" height="600"></canvas>
+
+<script>
+
+    var tela = document.querySelector('canvas');
+    var pincel = tela.getContext('2d');
+    pincel.fillStyle = 'lightgrey';
+    pincel.fillRect(0, 0, tela.width, tela.height);
+
+    var x = 80;
+    var y = 10;
+    var raio = 10;
+    var caindo = true;
+
+    
+    function desenhaCirculo(x, y, raio) {
+
+        pincel.fillStyle = 'red';
+        pincel.beginPath();
+        pincel.arc(x, y, raio, 0, 2 * Math.PI);
+        pincel.fill();
+    }
+
+    function limpaTela() {
+        pincel.clearRect(0, 0, tela.width, tela.height);
+        pincel.fillStyle = 'lightgrey';
+        pincel.fillRect(0, 0, tela.width, tela.height);
+        
+        
+    }
+
+
+
+
+    function atualizaTela() {
+
+        limpaTela();
+        desenhaCirculo(x, y, raio);
+        
+
+    }
+
+    var bolinhaPulandoInterval = setInterval(fazBolinhaPular, 20);
+    var bolinhaRolandoInterval;
+
+    function fazBolinhaPular(){
+
+
+        if(caindo){
+            cai();
+        }else{
+            quicaPraCima();
+        }
+
+
+    }
+
+    var altura = 0;
+    
+    function cai(){
+
+        y+=10;
+
+
+        if(y-altura <= 1/10*tela.height){
+
+            clearInterval(bolinhaPulandoInterval);
+            bolinhaPulandoInterval = setInterval(fazBolinhaPular, 110);  
+
+        }else if(y-altura <= 2/10*tela.height){
+
+            clearInterval(bolinhaPulandoInterval);
+            bolinhaPulandoInterval = setInterval(fazBolinhaPular, 60);   
+
+        }else if(y-altura <= 3/10*tela.height){
+
+            clearInterval(bolinhaPulandoInterval);
+            bolinhaPulandoInterval = setInterval(fazBolinhaPular, 40);   
+
+        }else if(y-altura <= 4/10*tela.height){
+
+            clearInterval(bolinhaPulandoInterval);
+            bolinhaPulandoInterval = setInterval(fazBolinhaPular, 30);  
+
+        }else if(y-altura <= 5/10*tela.height){
+
+            clearInterval(bolinhaPulandoInterval);
+            bolinhaPulandoInterval = setInterval(fazBolinhaPular, 20);  
+
+        }else{
+
+            clearInterval(bolinhaPulandoInterval);
+            bolinhaPulandoInterval = setInterval(fazBolinhaPular, 20); 
+
+        }
+
+
+        if(y>=tela.height){
+
+            caindo = false;
+            altura +=2/10*tela.height;
+            if(altura >= tela.height) {
+                clearInterval(bolinhaPulandoInterval);
+                 bolinhaRolandoInterval = setInterval(rolaBolinha,50);
+            }
+            y = tela.height - raio;
+            atualizaTela(x,y,raio);
+
+           
+
+        } 
+
+        atualizaTela(x,y,raio);
+
+    }
+
+    function quicaPraCima(){
+
+
+        y-=10;
+
+        if(y-altura <= 1/10*tela.height){
+
+            clearInterval(bolinhaPulandoInterval);
+            bolinhaPulandoInterval = setInterval(fazBolinhaPular, 110);    
+
+        }else if(y-altura <= 2/10*tela.height){
+
+            clearInterval(bolinhaPulandoInterval);
+            bolinhaPulandoInterval = setInterval(fazBolinhaPular, 60);   
+
+        }else if(y-altura <= 3/10*tela.height){
+
+            clearInterval(bolinhaPulandoInterval);
+            bolinhaPulandoInterval = setInterval(fazBolinhaPular, 40); 
+
+        }else if(y-altura <= 4/10*tela.height){
+
+            clearInterval(bolinhaPulandoInterval);
+            bolinhaPulandoInterval = setInterval(fazBolinhaPular, 30);  
+
+        }else if(y-altura <= 5/10*tela.height){
+
+            clearInterval(bolinhaPulandoInterval);
+            bolinhaPulandoInterval = setInterval(fazBolinhaPular, 20);   
+
+        }else{
+
+            clearInterval(bolinhaPulandoInterval);
+            bolinhaPulandoInterval = setInterval(fazBolinhaPular, 20); 
+        }
+
+        if(y<=altura) {
+
+            clearInterval(bolinhaPulandoInterval);
+            bolinhaPulandoInterval = setInterval(fazBolinhaPular, 20);   
+            caindo=true;
+        }
+
+
+        atualizaTela(x,y,raio);
+
+
+    }
+
+    function rolaBolinha(){
+
+        limpaTela();//
+        x+=10;
+        atualizaTela(x,y,raio);
+
+        if(x>=tela.width+raio)clearInterval(bolinhaRolandoInterval);
+
+    }
+
+</script>

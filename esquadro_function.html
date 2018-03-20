@@ -1,0 +1,60 @@
+<canvas width="1000" height="900"></canvas>
+
+
+<script>
+	
+
+	var canvas = document.querySelector('canvas');
+
+	var posicao = 10;
+
+	var myInterval = setInterval(mudaPosicaoEsquadro, 500);
+
+
+	var cores = ['blue', 'red', 'black', 'green', 'grey', 'yellow', 'orange', 'pink', 'white'];
+
+	function mudaPosicaoEsquadro(){
+
+		var corIndice = Math.round(Math.random(cores.length)*10);
+
+		desenhaEsquadro(posicao, 50, canvas, cores[corIndice]);
+		posicao++;
+		if(posicao > 1100) clearInterval(myInterval);
+
+	}
+
+
+	function desenhaEsquadro(x,y, canvas, color){
+
+
+			var pincel = canvas.getContext('2d');
+			pincel.fillStyle = 'white';
+			pincel.fillRect(0,0,canvas.width,canvas.height);
+
+			pincel.fillStyle = color;
+			pincel.beginPath();
+			
+			//faz o triangulo exterior do esquadro
+
+			pincel.moveTo(x,y);
+
+			pincel.lineTo(x,y+350);
+			pincel.lineTo(x+350,y+350);
+
+			pincel.fill();
+
+			pincel.fillStyle = 'white';
+			pincel.beginPath();
+
+			//faz o triangulo interior do esquadro
+
+			pincel.moveTo(x+50,y+125);
+			pincel.lineTo(x+50,y+300);
+			pincel.lineTo(x+225,y+300);
+
+
+			pincel.fill();
+
+	}
+
+</script>

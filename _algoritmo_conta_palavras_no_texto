@@ -1,0 +1,17 @@
+
+
+substituir sinais . , ; "" '' por espaco_em_branco
+
+para cada palavra no texto {
+	
+	palavra_atual = pegar_proxima_palavra_no_texto
+
+	if( palavra_atual_AINDA_NAO_foi_contada ){
+
+		contar_total_palavras_iguais_a_palavra_atual
+		armazenar_contagem_palavras_iguais_a_palavra_atual
+
+	}
+
+
+}

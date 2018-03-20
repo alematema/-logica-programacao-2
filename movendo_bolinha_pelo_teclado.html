@@ -1,0 +1,79 @@
+<canvas width="1200" height="600"></canvas>
+
+<script>
+
+    var tela = document.querySelector('canvas');
+    var pincel = tela.getContext('2d');
+    pincel.fillStyle = 'lightgray';
+    pincel.fillRect(0, 0, 600, 400);
+
+    var x = 20;
+    var y = 20;
+    var raio = 50;
+
+    // códigos do teclado
+
+    function desenhaCirculo(x, y, raio) {
+
+        pincel.fillStyle = 'blue';
+        pincel.beginPath();
+        pincel.arc(x, y, raio, 0, 2 * Math.PI);
+        pincel.fill();
+    }
+
+    function limpaTela() {
+
+        pincel.clearRect(0, 0, tela.width, tela.height);
+    }
+
+    function atualizaTela() {
+
+        limpaTela();
+        desenhaCirculo(x, y, raio);
+    }
+
+    setInterval(atualizaTela, 20);
+
+
+    function leDoTeclado(evento) {
+
+        if(evento.key=='ArrowUp'){
+
+            y-=10;
+            if(y<=raio)y = raio;
+
+            console.log("up");
+            
+        }
+        if(evento.key=='ArrowDown'){
+
+            y+=10;
+            if(y>=tela.height-raio)y = tela.height-raio;
+
+            console.log("down");
+            
+        }
+        if(evento.key=='ArrowRight'){
+
+            x+=10;
+            if(x>=tela.width-raio)x = tela.width-raio   ;
+
+            console.log("right");
+            
+        }
+        if(evento.key=='ArrowLeft'){
+
+            x-=10;
+            if(x<=raio)x = raio;
+
+            console.log("left");
+
+        }
+
+
+
+    }
+
+   document.onkeydown = leDoTeclado;
+
+</script>

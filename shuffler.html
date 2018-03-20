@@ -1,0 +1,45 @@
+<script>
+	
+
+
+function shuffle(array) {
+
+      var currentIndex = array.length, temporaryValue, randomIndex;
+      console.log(currentIndex);
+      console.log(array);
+
+
+      // While there remain elements to shuffle...
+      while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        console.log();
+        var toFloor = Math.random() * currentIndex
+        randomIndex = Math.floor(toFloor);//retorna numero entre 0 e array.length-1
+        //console.log(' currentIndex= ' + currentIndex + ' toFloor=Math.random() * currentIndex= ' + toFloor + ' randomIndex=Math.floor(toFloor)= ' + randomIndex);
+        currentIndex -= 1;
+
+        if(currentIndex==randomIndex){
+        	//console.log('SEM TROCA @ ' + currentIndex);
+        }else{
+
+        	// And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+
+        //console.log('TROCA @ ' + (currentIndex+1) + '='+temporaryValue +' COM @ ' + (randomIndex+1)+'='+array[currentIndex]);
+
+        }
+
+        
+        console.log(array);
+      }
+
+      return array;
+}
+
+shuffle(['BANANA','CAXEMIRA','LUPUVIGO','CAB','FARAÓ','SENEGAL','ERA ASTROLOGICA','CICLO','OROBOROS', 'MAGOS', 'CABALÁ', 'QUIRON', 'ASTROLOGICA']);
+
+
+</script>

@@ -1,0 +1,39 @@
+<canvas width="1000" height="500"></canvas>
+
+<script>
+	
+
+	var canvas = document.querySelector('canvas');
+	var pincel = canvas.getContext('2d');
+
+
+	//pinta o verde da bandeira
+	pincel.fillStyle = 'green';
+	pincel.fillRect(0,0,canvas.width,canvas.height);
+
+	//faz o losango amarelo
+	pincel.fillStyle = 'yellow';
+	pincel.beginPath();
+
+	
+	var distanciaDaBorda = 30;
+	//triangulo superior
+	pincel.moveTo(canvas.width/2, distanciaDaBorda);
+	pincel.lineTo(distanciaDaBorda,canvas.height/2);
+	pincel.lineTo(canvas.width - distanciaDaBorda,canvas.height/2);
+	pincel.fill();
+
+	pincel.beginPath();
+	//triangulo de baixo
+	pincel.moveTo(canvas.width / 2, canvas.height - distanciaDaBorda);
+	pincel.lineTo(distanciaDaBorda , canvas.height/2);
+	pincel.lineTo(canvas.width - distanciaDaBorda, canvas.height/2);
+	pincel.fill();
+
+	//o círculo azul
+	pincel.fillStyle = 'darkblue';
+	pincel.beginPath();
+	pincel.arc(canvas.width/2, canvas.height/2, 1/4*canvas.height + 10, 0, 2 * 3.14);
+	pincel.fill();
+
+</script>

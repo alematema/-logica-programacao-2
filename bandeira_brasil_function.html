@@ -1,0 +1,132 @@
+<meta content="width=device-width, initial-scale=1"></meter>
+<canvas width="1000" height="500"></canvas>
+
+<div >
+  
+  <P><button  onclick = "pararRecomecarDesenharBandeiraBrasil();" name="parar">PARAR</button></p>
+  <input type="range" min="1" max="100" value="10"  id="myRange">
+  <p><h1>VELOCIDADE <span id="velocidade"></span></h1></p>
+  <p><h1># <span id="quantasVezesFoiDesenhadaBandeira"></span></h1></p>
+
+</div>
+
+<script>
+
+	var quantasVezesFoiDesenhadaBandeira = 0;
+
+	var slider = document.getElementById("myRange");
+	var velocity = slider.value;
+	function novaVelocidadeDesenharBandeira(){
+		 velocity = (1/slider.value*500);
+		 //console.log(velocity);
+		 return velocity;
+	}
+	
+
+	var myInterval = setInterval(redesenhaBandeiraBrasil, novaVelocidadeDesenharBandeira());
+	
+	
+	var output = document.getElementById("velocidade");
+	output.innerHTML = slider.value;
+
+	slider.oninput = function() {
+
+ 		 output.innerHTML = this.value;
+
+ 		 if(document.querySelector('button').name == 'parar'){
+
+ 		 	 clearInterval(myInterval);
+ 			 myInterval = setInterval(redesenhaBandeiraBrasil, novaVelocidadeDesenharBandeira());
+
+ 		 }
+ 		
+	}
+
+	var canvas = document.querySelector('canvas');
+	
+
+	function pararRecomecarDesenharBandeiraBrasil(){
+
+		
+		var botao = document.querySelector('button');
+		
+
+		if(botao.name == 'parar'){
+
+			clearInterval(myInterval);
+			botao.name = 'retormar';
+			botao.innerHTML = 'RECOMEÇAR'
+
+		}else{
+
+			myInterval = setInterval(redesenhaBandeiraBrasil, novaVelocidadeDesenharBandeira());
+			botao.name = 'parar';
+			botao.innerHTML = 'PARAR';
+
+
+		}
+
+
+	}
+
+
+	function redesenhaBandeiraBrasil(){
+
+
+		var novoComprimento = Math.round(Math.random(1000) * 1000);
+		var novoLargura = Math.round(Math.random(500) * 500);
+
+		desenhaBandeiraBrasil(novoComprimento, novoLargura);
+
+		quantasVezesFoiDesenhadaBandeira++;
+
+		var output2 = document.getElementById("quantasVezesFoiDesenhadaBandeira");
+		output2.innerHTML = quantasVezesFoiDesenhadaBandeira;
+
+
+	}
+
+
+	function desenhaBandeiraBrasil(comprimento, largura){
+
+
+		var pincel = canvas.getContext('2d');
+		pincel.fillStyle = 'white';
+		pincel.fillRect(0,0,canvas.width, canvas.height);
+
+
+		//pinta o verde da bandeira
+		pincel.fillStyle = 'green';
+		pincel.fillRect(0,0,comprimento,largura);
+
+		//faz o losango amarelo
+		pincel.fillStyle = 'yellow';
+		pincel.beginPath();
+
+		
+		var distanciaDaBorda = 30;
+		//triangulo superior
+		pincel.moveTo(comprimento/2, distanciaDaBorda);
+		pincel.lineTo(distanciaDaBorda,largura/2);
+		pincel.lineTo(comprimento - distanciaDaBorda,largura/2);
+		pincel.fill();
+
+		pincel.beginPath();
+		//triangulo de baixo
+		pincel.moveTo(comprimento / 2, largura - distanciaDaBorda);
+		pincel.lineTo(distanciaDaBorda , largura/2);
+		pincel.lineTo(comprimento - distanciaDaBorda, largura/2);
+		pincel.fill();
+
+		//o círculo azul
+		pincel.fillStyle = 'darkblue';
+		pincel.beginPath();
+		pincel.arc(comprimento/2, largura/2, 1/4*largura + 10, 0, 2 * 3.14);
+		pincel.fill();
+
+
+	}
+
+
+	
+</script>

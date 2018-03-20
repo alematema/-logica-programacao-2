@@ -1,0 +1,83 @@
+<canvas width="400" height="400"></canvas>
+
+<script>
+
+    var tela = document.querySelector('canvas');
+    var pincel = tela.getContext('2d');
+    var corCanvas = 'lightgray'
+
+    pincel.fillStyle = corCanvas;
+    pincel.fillRect(0, 0, tela.width, tela.height);
+
+    var raio = 10; 
+    var incrementoRaio = 10;
+    var x0 = 300;
+    var y0 = 200;
+
+    function limpaTela(){
+
+      pincel.fillStyle = corCanvas;
+      pincel.fillRect(0, 0, tela.width, tela.height);
+
+    }
+
+    function desenhaCirculo(x, y, raio, cor) {
+
+        pincel.fillStyle = cor;
+        pincel.beginPath();
+        pincel.arc(x, y, raio, 0, 2 * Math.PI);
+        pincel.fill();
+    }
+
+    function desenhaAlvo(x,y){
+
+      limpaTela();
+
+      desenhaCirculo(x,y, raio + 2*incrementoRaio, 'red'); // maior círculo
+      desenhaCirculo(x,y, raio + incrementoRaio, 'white');
+      desenhaCirculo(x,y, raio, 'red'); // menor circulo
+
+    }
+
+    var desenhaAlvoInterval = setInterval(desenhaAlvoAleatorio,1250);
+
+    function desenhaAlvoAleatorio(){
+
+
+        x0 = Math.floor(Math.random()*(tela.width-raio-2*incrementoRaio));
+        if(x0<raio + 2*incrementoRaio) x0 = raio + 2*incrementoRaio;
+        y0 = Math.floor(Math.random()*(tela.height-raio-2*incrementoRaio));
+        if(y0<raio + 2*incrementoRaio) y0 = raio + 2*incrementoRaio;
+        desenhaAlvo(x0,y0);
+
+
+    }
+
+    function dispara(evento) {
+
+        var x = evento.pageX - tela.offsetLeft;
+        var y = evento.pageY - tela.offsetTop;
+
+       // A equacao da circunferencia para este sistema X,Y de coordenadas é: raio² = (x-x0)² + (y-y0)² 
+       // Um ponto (x,y) estará dentro do circulo se, e somente se, satisfizer a equacao: (x-x0)² + (y-y0)² <= raio² 
+
+
+       if((x-x0)*(x-x0) + (y-y0)*(y-y0) <= raio*raio)
+
+       {
+            alert('acertou o alvo');
+
+       }else{
+
+
+
+       }
+
+
+    }
+
+    desenhaAlvoAleatorio();
+
+    tela.onclick = dispara;
+
+</script>

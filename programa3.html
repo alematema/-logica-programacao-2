@@ -1,0 +1,138 @@
+<meta charset="UTF-8">
+<canvas width="600" height="400" ></canvas>
+<p id="clickInfo"></p>
+<p id="pointInfo" style="color: blue;font-weight: bold;"></p>
+<p id="drawing" style="color: red;font-weight: bold;">desenhar desligado</p>
+<p><button onclick="abreAjuda()">AJUDA</button></p>
+
+<script>
+
+
+    var canDraw = false;
+    var backgroundColor = '#9bffd3';
+
+    var tela = document.querySelector('canvas');
+    var pincel = tela.getContext('2d');
+    pincel.fillStyle=backgroundColor;
+    pincel.fillRect(0,0, 600 ,400); 
+
+    function mDown(obj) {
+        
+        if(obj.button !== 2){
+            console.log(obj);
+            pincel.fillStyle="#D94A38";
+            pincel.fillRect(0,0, 600 ,400); 
+        }
+        
+        
+    }
+
+    function mUp(obj) {
+        
+        if(obj.button !== 2){
+            console.log(obj);
+            pincel.fillStyle=backgroundColor;
+            pincel.fillRect(0,0, 600 ,400); 
+        }
+        
+    }
+
+
+        function enableDisableDrawing(evento){
+
+
+            if(evento.ctrlKey){
+                
+                enableDisableDrawingNoEvent();
+                
+            }else{
+                exibeClickInfo(evento);
+            }
+
+            
+            
+        }
+
+        function enableDisableDrawingNoEvent(){
+            if(canDraw){
+                    canDraw = false;
+                    document.getElementById('drawing').innerHTML='desenhar desligado ';
+                    document.getElementById('drawing').style.color='red';
+
+                }else{
+
+                    
+                    canDraw = true;
+                    document.getElementById('drawing').innerHTML='desenhar ligado ';
+                    document.getElementById('drawing').style.color='green';
+                }
+        }
+        
+
+        function exibeAlerta(evento){
+            if(evento.ctrlKey){
+                alert('cliquei no ponto ('+evento.x+','+evento.y+')');
+            console.log(evento);
+            }
+            
+        }
+
+        function exibeClickInfo(evento){
+
+            var x = evento.pageX - tela.offsetLeft;
+            var y = evento.pageY - tela.offsetTop;
+           
+            document.getElementById('clickInfo').innerHTML='<h5> cliquei no ponto ('+x+','+y+')</h5>';
+            pincel.fillStyle = 'red';  
+            pincel.beginPath();
+            pincel.arc(x,y,8,0,2*Math.PI);
+            pincel.fill();
+           
+        }
+
+        function exibePointInfo(evento){
+           
+
+            var x = evento.pageX - tela.offsetLeft;
+                var y = evento.pageY - tela.offsetTop;
+               
+                document.getElementById('pointInfo').innerHTML='<h1>('+x+','+y+')</h1>';
+
+            if(canDraw){
+
+
+                
+                pincel.fillStyle = 'darkblue';  
+                pincel.beginPath();
+                pincel.arc(x,y,4.5,0,2*Math.PI);
+                pincel.fill();
+                document.getElementById('clickInfo').innerHTML='';
+
+            }
+
+            
+           
+        }
+
+        function limpar(evento){
+
+            pincel.fillStyle=backgroundColor;
+            pincel.fillRect(0,0, 600 ,400); 
+            document.getElementById('clickInfo').innerHTML='';
+            canDraw = true;
+            enableDisableDrawingNoEvent();
+
+        }
+
+        function abreAjuda(){
+            alert("Ctrl+Click -> LIGA/DESLIGA desenhar\nClick -> desenha bolinha\nClick Duplo limpa");
+        }
+
+        tela.onclick=enableDisableDrawing;
+        tela.ondblclick=limpar;
+        tela.onmousemove=exibePointInfo;
+        //tela.onmousedown=mDown;
+        //tela.onmouseup=mUp;
+    
+
+</script>   

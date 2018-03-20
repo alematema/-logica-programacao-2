@@ -1,0 +1,152 @@
+
+<canvas width="1500" height="800"></canvas>
+
+<script src="selection_sort.js"></script>
+
+<script>
+
+    function desenhaRetangulo(x, y, largura, altura, cor) {
+        var tela = document.querySelector('canvas');
+        var pincel = tela.getContext('2d');
+
+        pincel.fillStyle=cor;
+        pincel.fillRect(x,y, largura, altura);
+        pincel.strokeStyle='black';
+        pincel.strokeRect(x,y, largura, altura);
+    }
+
+    function desenhaTexto(x, y, texto, fontSize) {
+        var tela = document.querySelector('canvas');
+        var pincel = tela.getContext('2d');
+
+        pincel.font= fontSize + 'px Georgia';
+        pincel.fillStyle='black';
+        pincel.fillText(texto, x, y);    
+    }
+
+    var serie2015 = [50, 25, 20, 5];
+    var serie2016 = [65, 20, 13, 2];
+    
+/*
+    var serie2015JSON = [
+
+            {'frequencia':50, 'navegador':'chrome'},
+            {'frequencia':25, 'navegador':'firefox'},
+            {'frequencia':20, 'navegador':'safari'},
+            {'frequencia':5, 'navegador':'outros'}
+
+    ];
+
+    var serie2016JSON = [
+
+            {'frequencia':65, 'navegador':'chrome'},
+            {'frequencia':20, 'navegador':'firefox'},
+            {'frequencia':13, 'navegador':'safari'},
+            {'frequencia':2, 'navegador':'outros'}
+
+    ];
+
+*/
+
+    var serie2015JSON = criaSerie();
+
+    var serie2016JSON = criaSerie();
+
+    function criaSerie(){
+
+        var total = 100;
+
+        var serie = [];
+        var navegadores = ['chrome','firefox', 'safari','outros'];
+
+        var acumulado=0;
+        var porcetagem;
+
+        for (var i = 0; i < navegadores.length; i++) {
+    
+
+            if(i==navegadores.length-1){
+
+                porcetagem = 100 - acumulado;
+                acumulado+=porcetagem;
+
+            }else{
+
+                porcetagem = Math.round(Math.random(total)*total);
+                while(porcetagem<4 && acumulado<85){
+                    porcetagem = Math.round(Math.random(total)*total);
+                }
+                acumulado+=porcetagem;
+                total-=porcetagem;
+
+            }
+
+            serie.push({'frequencia':porcetagem, 'navegador':navegadores[i]});
+
+         }
+
+
+         selectionSort(serie);
+
+         return serie;
+
+ }
+    
+
+    var cores = ['blue', 'green', 'yellow', 'red'];
+    var coresHex = ['blue', 'green', 'yellow', 'red'];
+    var coresdark = ['darkblue', 'darkgreen', 'orange', 'darkred'];
+    var coreslight = ['lightblue', 'lightgreen', 'lightyellow', 'pink'];
+
+
+    function desenhaBarra(x, y, serie, cores, texto) {
+    
+        
+        var largura = 150;
+        desenhaTexto(x + 20,y-10,texto,20);
+        var altura = 0;
+        for (var i = 0; i < serie.length;i++) {
+            altura = 5*serie[i].frequencia;
+            desenhaRetangulo(x,y,largura,altura,cores[i]);
+            if(serie[i].frequencia>=5){
+                desenhaTexto(x+largura+10,y+altura/2,serie[i].navegador + '('+serie[i].frequencia+'%)',15);
+            }else{
+                if(serie[i].frequencia>0)desenhaTexto(x+largura+10,y+altura/2,serie[i].navegador + '('+serie[i].frequencia+'%)',11 );
+            }
+            
+            y+=altura;
+        }
+        
+
+    }
+
+
+    var x = 100;
+    var y = 100;
+    desenhaBarra(x,y,criaSerie(),cores,'browsers 2015');
+    desenhaBarra(300+x,y,criaSerie(),coresHex,'browsers 2016');
+    desenhaBarra(600+x,y,criaSerie(),coreslight,'browsers 2017');
+    desenhaBarra(900+x,y,criaSerie(),coresdark,'browsers 2018');
+
+    var myInterval = setInterval(geraBarrasAleatoriamente, 1000);
+
+    function geraBarrasAleatoriamente(){
+
+        var tela = document.querySelector('canvas');
+        var pincel = tela.getContext('2d');
+        pincel.fillStyle='white';
+        pincel.fillRect(0,0, 1500 ,800); 
+
+        
+        desenhaBarra(x,y,criaSerie(),cores,'browsers 2015');
+        desenhaBarra(300+x,y,criaSerie(),coresHex,'browsers 2016');
+        desenhaBarra(600+x,y,criaSerie(),coreslight,'browsers 2017');
+        desenhaBarra(900+x,y,criaSerie(),coresdark,'browsers 2018');
+    }
+/*
+    desenhaBarra(30,50,serie2015JSON,cores,'browsers 2015');
+    desenhaBarra(320,50,serie2016JSON,cores,'browsers 2016');
+
+    */
+
+</script>

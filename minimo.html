@@ -1,0 +1,32 @@
+<script>
+	
+
+
+function findMin(array) {
+
+      var currentIndex = array.length;
+      var minValue = Number.MAX_SAFE_INTEGER;
+      
+      console.log(array);
+
+
+      
+      while (0 !== currentIndex) {
+
+        
+        currentIndex -= 1;
+
+        if(array[currentIndex]<minValue){
+        	minValue = array[currentIndex];
+        }
+
+        
+      }
+
+      return minValue;
+}
+
+console.log(findMin([1,0,7,-10,90,100,2,3,4,7,8,9,]));
+
+
+</script>
